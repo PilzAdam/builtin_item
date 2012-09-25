@@ -82,6 +82,9 @@ minetest.register_entity(":__builtin:item", {
 		if not time then
 			time = 300
 		end
+		if not self.timer then
+			self.timer = 0
+		end
 		self.timer = self.timer + dtime
 		if (self.timer > time) then
 			self.object:remove()
