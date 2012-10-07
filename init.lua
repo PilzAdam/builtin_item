@@ -176,3 +176,7 @@ minetest.register_entity(":__builtin:item", {
 		self.object:remove()
 	end,
 })
+
+if minetest.setting_get("log_mods") then
+	minetest.log("action", "builtin_item loaded")
+end
