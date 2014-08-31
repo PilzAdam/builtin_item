@@ -13,6 +13,7 @@ local function get_nodes(pos)
 end
 
 local function get_flowing_dir(pos)
+	pos = vector.round(pos)
 	local data = get_nodes(pos)
 	local param2 = minetest.get_node(pos).param2
 	if param2 > 7 then
