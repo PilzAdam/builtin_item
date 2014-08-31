@@ -1,4 +1,16 @@
+local time = tonumber(os.clock())+10
+local lastpos = vector.zero or {x=0, y=0, z=0}
+local last_tab
+
 local function get_nodes(pos)
+	local rnd_pos = vector.round(pos)
+	local t = tonumber(os.clock())
+	if vector.equals(rnd_pos, lastpos)
+	and t-time < 10 then
+		return last_tab
+	end
+	time = t
+	lastpos = rnd_pos
 	local tab,n = {},1
 	for i = -1,1,2 do
 		for _,p in pairs({
@@ -9,6 +21,7 @@ local function get_nodes(pos)
 			n = n+1
 		end
 	end
+	last_tab = tab
 	return tab
 end
 
