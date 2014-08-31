@@ -1,21 +1,24 @@
 local time = tonumber(os.clock())+10
 local lastpos = vector.zero or {x=0, y=0, z=0}
 local last_tab
+local always_test
 
 local function get_nodes(pos)
-	local rnd_pos = vector.round(pos)
-	local t = tonumber(os.clock())
-	local tmp = vector.equals(rnd_pos, lastpos)
-	if tmp
-	and t-time < 10 then
-		return last_tab
-	end
-	if not tmp then
-		time = t+10
-	else
+	if not always_test then
+		local rnd_pos = vector.round(pos)
+		local t = tonumber(os.clock())
+		if vector.equals(rnd_pos, lastpos)
+		and t-time < 10 then
+			return last_tab
+		end
 		time = t
+		lastpos = rnd_pos
+		local near_objects = minetest.get_objects_inside_radius(pos, 1)
+		if #near_objects >= 2 then
+			always_test = true
+			minetest.after(10, function() always_test = false end)
+		end
 	end
-	lastpos = rnd_pos
 	local tab,n = {},1
 	for i = -1,1,2 do
 		for _,p in pairs({
@@ -26,7 +29,9 @@ local function get_nodes(pos)
 			n = n+1
 		end
 	end
-	last_tab = tab
+	if not always_test then
+		last_tab = tab
+	end
 	return tab
 end
 
