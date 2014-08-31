@@ -5,11 +5,16 @@ local last_tab
 local function get_nodes(pos)
 	local rnd_pos = vector.round(pos)
 	local t = tonumber(os.clock())
-	if vector.equals(rnd_pos, lastpos)
+	local tmp = vector.equals(rnd_pos, lastpos)
+	if tmp
 	and t-time < 10 then
 		return last_tab
 	end
-	time = t
+	if not tmp then
+		time = t+10
+	else
+		time = t
+	end
 	lastpos = rnd_pos
 	local tab,n = {},1
 	for i = -1,1,2 do
